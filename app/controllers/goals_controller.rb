@@ -25,6 +25,23 @@ class GoalsController < ApplicationController
     render :index
   end
 
+  def edit
+    @goal = Goal.find_by_id(params[:id])
+    render :edit
+  end
+
+  def update
+    @goal = Goal.find_by_id(params[:id])
+    @goal.update_attributes(goal_params)
+    redirect_to goal_url(@goal)
+  end
+
+  def destroy
+    @goal = Goal.find_by_id(params[:id])
+    @goal.destroy
+    redirect_to goals_url
+  end
+
   private
   def goal_params
     params.require(:goal).permit(:title, :details, :private, :completed)

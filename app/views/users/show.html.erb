@@ -1,1 +1,12 @@
-<h2><%= @user.username %>'s Profile</h2>
+<p>
+  <h2><%= @user.username %>'s Profile</h2>
+</p>
+
+<p>
+  <h3><%= @user.username %>'s Goals</h3>
+  <ul>
+    <% @user.goals.each do |goal| %>
+      <li><%= goal.title %></li>
+    <% end %>
+  </ul>
+</p>

@@ -2,6 +2,10 @@
 
 <ul>
   <% @goals.each do |goal| %>
-    <li><%= goal.title %></li>
+    <li><%= link_to goal.title, goal_url(goal) %></li>
+    <br>
+    <%= button_to "delete '#{goal.title}' goal",
+                  goal_url(goal),
+                  method: :delete %>
   <% end %>
 </ul>

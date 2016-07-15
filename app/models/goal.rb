@@ -16,4 +16,6 @@ class Goal < ActiveRecord::Base
   validates :title, presence: true, length: { minimum: 6 }
   validates :private, inclusion: [true, false]
   validates :completed, inclusion: [true, false]
+
+  belongs_to :user
 end

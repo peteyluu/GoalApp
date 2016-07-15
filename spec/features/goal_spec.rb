@@ -11,7 +11,7 @@ feature "CRUD of goals" do
     click_on "Sign In"
   end
 
-  feature "create goals" do
+  feature "the create goal process" do
     it "should have a page for creating a new goal" do
       visit new_goal_url
       expect(page).to have_content "New Goal"
@@ -27,7 +27,7 @@ feature "CRUD of goals" do
     end
   end
 
-  feature "reading goals" do
+  feature "the read goals process" do
     before(:each) do
       visit new_goal_url
       fill_in "goal_title", with: "running"
@@ -53,21 +53,49 @@ feature "CRUD of goals" do
     end
   end
 
-  feature "updating goals" do
+  feature "the update goal process" do
     let(:goal) { FactoryGirl.create(:goal) }
 
     it "should have a page to edit a goal" do
       visit edit_goal_url(goal)
       expect(page).to have_content "Edit Goal"
+      expect(page).to have_field "Title"
+      expect(page).to have_button "Update Goal"
     end
 
-    it "should render the edited goal on the show page"
+    before(:each) do
+      visit edit_goal_url(goal)
+      fill_in "goal_title", with: "code code code"
+      fill_in "goal_details", with: "practice practice practice"
+      click_on "Update Goal"
+    end
+
+    it "should show the updated edit" do
+      visit goal_url(goal)
+      expect(page).to have_content "code code code"
+      expect(page).to have_content "practice practice practice"
+    end
   end
 
   feature "the delete goal process" do
-    it "should delete the goal"
+    let(:goal) { FactoryGirl.create(:goal) }
 
-    it "should delete the goal from the list of goals"
+    before(:each) do
+      visit new_goal_url
+      fill_in "goal_title", with: "run run run"
+      fill_in "goal_details", with: "ok ok ok"
+      click_on "Create Goal"
+    end
 
+    it "should have the delete button on goals url" do
+      visit goals_url
+      expect(page).to have_button "delete \'run run run\' goal"
+    end
+
+    it "should delete the goal from the list of goals" do
+      visit goals_url
+      click_on "delete \'run run run\' goal"
+      expect(page).not_to have_content "run run run"
+    end
   end
 end
