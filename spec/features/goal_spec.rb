@@ -99,3 +99,71 @@ feature "CRUD of goals" do
     end
   end
 end
+
+# let vs let!
+# (let) The value will be cached across multiple calls in the same example
+# but not across examples.
+# Note that let is lazy-evaluated: it is not evaluated until the first time
+# the method it defines is invoked.
+# You can use let! to force the method's invocation before each example.
+
+feature "privacy of goals" do
+  let!(:hello_world) { FactoryGirl.create(:user_hw) }
+  let!(:foo_bar) { FactoryGirl.create(:user_foo) }
+
+  feature "public goals" do
+    let!(:hw_goal) { FactoryGirl.create(:goal, author: hello_world) }
+
+    it "should set private on default" do
+      visit new_goal_url
+      fill_in "goal_title", with: hw_goal.title
+      fill_in "goal_details", with: hw_goal.details
+      click_on "Create Goal"
+      visit goal_url(hw_goal)
+      expect(page).to have_content "Public"
+    end
+
+    it "should display public goal when logged out" do
+      visit user_url(hello_world)
+      expect(page).to have_content hw_goal.title
+    end
+
+    it "should display public goal when logged in" do
+      visit new_session_url
+      fill_in "session_username", with: foo_bar.username
+      fill_in "session_password", with: foo_bar.password
+      click_on "Sign In"
+      visit user_url(hello_world)
+      expect(page).to have_content hw_goal.title
+    end
+  end
+
+  feature "private goals" do
+    let!(:hw_goal) do
+      FactoryGirl.create(:goal, author: hello_world, private: true)
+    end
+
+    it "should set private on explicitly" do
+      visit new_goal_url
+      fill_in "goal_title", with: hw_goal.title
+      fill_in "goal_details", with: hw_goal.details
+      click_on "Create Goal"
+      visit goal_url(hw_goal)
+      expect(page).to have_content "Private"
+    end
+
+    it "should display private goals when logged in" do
+      visit new_session_url
+      fill_in "session_username", with: hello_world.username
+      fill_in "session_password", with: hello_world.password
+      click_on "Sign In"
+      visit user_url(hello_world)
+      expect(page).to have_content hw_goal.title
+    end
+
+    it "should not display private goals when logged out" do
+      visit user_url(hello_world)
+      expect(page).not_to have_content hw_goal.title
+    end
+  end
+end

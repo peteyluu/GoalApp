@@ -11,7 +11,8 @@
 #
 
 FactoryGirl.define do
-  factory :user do
+  factory :user do # The name matters. :user factory returns a User object.
+    # To generate random names for our test users, we must pass a block that generates the random username string instead of passing the string value it self.
     username { Faker::Internet.user_name }
     password "password"
 

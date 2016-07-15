@@ -17,5 +17,10 @@ class Goal < ActiveRecord::Base
   validates :private, inclusion: [true, false]
   validates :completed, inclusion: [true, false]
 
-  belongs_to :user
+  belongs_to(
+    :author,
+    class_name: "User",
+    foreign_key: :user_id,
+    primary_key: :id
+  )
 end
