@@ -1,0 +1,29 @@
+<h2>Goal:</h2>
+
+<% if !flash[:notice].nil? %>
+  <%= flash[:notice] %>
+<% end %>
+
+<table>
+  <tr>
+    <th>Title:</th>
+    <td><%= @goal.title %></td>
+  </tr>
+
+  <tr>
+    <th>Details:</td>
+    <td><%= @goal.details %></td>
+  </tr>
+
+  <tr>
+    <th>Visibility:</th>
+    <% private_text = @goal.private == false ? "Public" : "Private" %>
+    <td><%= private_text %></td>
+  </tr>
+
+  <tr>
+    <th>Finished?:</th>
+    <% completed_text = @goal.completed == false ? "Ongoing" : "Completed" %>
+    <td><%= completed_text %></td>
+  </tr>
+</table>
