@@ -42,6 +42,16 @@ class GoalsController < ApplicationController
     redirect_to goals_url
   end
 
+  def complete
+    @goal = Goal.find_by_id(params[:id])
+    if @goal.completed == false
+      @goal.completed = true
+    else
+      @goal.completed = false
+    end
+    redirect_to goal_url(@goal)
+  end
+
   private
   def goal_params
     params.require(:goal).permit(:title, :details, :private, :completed)

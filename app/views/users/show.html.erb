@@ -6,9 +6,9 @@
     <% if logged_in? &&
           current_user.id == @user.id &&
           goal.private == true %>
-      <li><%= goal.title %></li>
+      <li><%= link_to goal.title, goal_url(goal) %></li>
     <% elsif goal.private == false %>
-      <li><%= goal.title %></li>
+      <li><%= link_to goal.title, goal_url(goal) %></li>
     <% end %>
   <% end %>
 </ul>

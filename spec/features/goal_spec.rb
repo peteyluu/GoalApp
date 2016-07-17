@@ -100,13 +100,6 @@ feature "CRUD of goals" do
   end
 end
 
-# let vs let!
-# (let) The value will be cached across multiple calls in the same example
-# but not across examples.
-# Note that let is lazy-evaluated: it is not evaluated until the first time
-# the method it defines is invoked.
-# You can use let! to force the method's invocation before each example.
-
 feature "privacy of goals" do
   let!(:hello_world) { FactoryGirl.create(:user_hw) }
   let!(:foo_bar) { FactoryGirl.create(:user_foo) }
@@ -164,6 +157,45 @@ feature "privacy of goals" do
     it "should not display private goals when logged out" do
       visit user_url(hello_world)
       expect(page).not_to have_content hw_goal.title
+    end
+  end
+end
+
+feature " goal completeness tracking" do
+  let!(:hello_world) { FactoryGirl.create(:user_hw) }
+  let!(:foo_bar) { FactoryGirl.create(:user_foo) }
+  let!(:hw_goal) { FactoryGirl.create(:goal, author: hello_world) }
+
+  before(:each) do
+    visit new_session_url
+    fill_in "session_username", with: hello_world.username
+    fill_in "session_password", with: hello_world.password
+    click_on "Sign In"
+  end
+
+  feature "incomplete goals" do
+    it "should set uncompleted on default" do
+      visit goal_url(hw_goal)
+      expect(page).to have_content "Ongoing"
+    end
+
+    it "should have a complete button" do
+      visit goal_url(hw_goal)
+      expect(page).to have_button "Complete"
+    end
+  end
+
+  feature "completed goals" do
+    it "should set completed on explicit" do
+      visit goal_url(hw_goal)
+      click_button "Complete"
+      expect(page).to have_content "Completed"
+    end
+
+    it "should have a button did not complete" do
+      visit goal_url(hw_goal)
+      click_button "Complete"
+      expect(page).to have_button "Opps! Did not complete."
     end
   end
 end

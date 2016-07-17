@@ -23,12 +23,12 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
-# group :development do
-#   gem 'byebug'
-#   gem 'web-console', '~> 2.0'
-#   gem 'spring'
-#   gem 'annotate'
-#   gem 'better_errors'
-#   gem 'binding_of_caller'
-#   gem 'pry-rails'
-# end
+group :development do
+  gem 'byebug'
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
+  gem 'annotate'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'pry-rails'
+end

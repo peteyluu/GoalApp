@@ -26,4 +26,23 @@
     <% completed_text = @goal.completed == false ? "Ongoing" : "Completed" %>
     <td><%= completed_text %></td>
   </tr>
+
+  <tr>
+    <th>Completed?:</th>
+    <td>
+      <form action="<%= goal_url(@goal) %>" method="post">
+        <%= auth_token %>
+        <input type="hidden" name="_method" value="patch">
+        <input type="hidden"
+               name="goal[completed]"
+               value="<%= !@goal.completed %>">
+        <% if @goal.completed %>
+          <% value = "Opps! Did not complete." %>
+        <% else %>
+          <% value = "Complete" %>
+        <% end %>
+        <input type="submit" value="<%= value %>">
+      </form>
+    </td>
+  </tr>
 </table>
