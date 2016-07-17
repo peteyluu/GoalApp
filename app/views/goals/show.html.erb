@@ -48,28 +48,7 @@
 </table>
 
 <h3>Comments</h3>
-
-<ul>
-  <% @goal.comments.each do |comment| %>
-    <li><%= comment.body %></li>
-  <% end %>
-</ul>
+<%= render 'comments/index', object: @goal %>
 
 <h3>New Comment</h3>
-
-<form action="<%= comments_url %>" method="post">
-  <%= auth_token %>
-
-  <label for="comment_body">Comment</label>
-  <textarea id="comment_body" name="comment[body]"></textarea>
-
-  <input type="hidden"
-         name="comment[commentable_id]"
-         value="<%= @goal.id %>">
-
-  <input type="hidden"
-         name="comment[commentable_type]"
-         value="Goal">
-
-  <input type="submit" value="Save Comment">
-</form>
+<%= render 'comments/new', commentable_id: @goal.id, commentable_type: "Goal" %>

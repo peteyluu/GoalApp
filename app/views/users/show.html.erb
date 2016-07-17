@@ -1,33 +1,12 @@
 <h2><%= @user.username %>'s Profile</h2>
 
 <h3>Comments</h3>
-<ul>
-  <% @user.comments.each do |comment| %>
-    <li><%= comment.body %></li>
-  <% end %>
-</ul>
-
-<h3><%= @user.username %>'s Goals</h3>
+<%= render 'comments/index', object: @user %>
 
 <h3>New Comment</h3>
+<%= render 'comments/new', commentable_id: @user.id, commentable_type: "User" %>
 
-<form action="<%= comments_url %>" method="post">
-  <%= auth_token %>
-
-  <label for="comment_body">Comment</label>
-  <textarea id="comment_body" name="comment[body]"></textarea>
-
-  <input type="hidden"
-         name="comment[commentable_id]"
-         value="<%= @user.id %>">
-
-  <input type="hidden"
-         name="comment[commentable_type]"
-         value="User">
-
-  <input type="submit" value="Save Comment">
-</form>
-
+<h3><%= @user.username %>'s Goals</h3>
 <ul>
   <% @user.goals.each do |goal| %>
     <% if logged_in? &&
