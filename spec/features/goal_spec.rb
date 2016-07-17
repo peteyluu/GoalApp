@@ -161,7 +161,7 @@ feature "privacy of goals" do
   end
 end
 
-feature " goal completeness tracking" do
+feature "goal completeness tracking" do
   let!(:hello_world) { FactoryGirl.create(:user_hw) }
   let!(:foo_bar) { FactoryGirl.create(:user_foo) }
   let!(:hw_goal) { FactoryGirl.create(:goal, author: hello_world) }
