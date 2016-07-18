@@ -13,11 +13,11 @@
 #
 
 class Goal < ActiveRecord::Base
+  include Commentable
+
   validates :title, presence: true, length: { minimum: 6 }
   validates :private, inclusion: [true, false]
   validates :completed, inclusion: [true, false]
-
-  has_many :comments, as: :commentable
 
   belongs_to(
     :author,
