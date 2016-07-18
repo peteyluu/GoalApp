@@ -31,11 +31,15 @@
     <th>Completed?:</th>
     <td>
       <form action="<%= goal_url(@goal) %>" method="post">
-        <%= auth_token %>
+        <input type="hidden"
+               name="authenticity_token"
+               value="<%= form_authenticity_token %>">
+
         <input type="hidden" name="_method" value="patch">
         <input type="hidden"
                name="goal[completed]"
                value="<%= !@goal.completed %>">
+
         <% if @goal.completed %>
           <% value = "Opps! Did not complete." %>
         <% else %>

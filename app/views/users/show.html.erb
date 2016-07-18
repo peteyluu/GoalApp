@@ -7,6 +7,9 @@
 <%= render 'comments/new', commentable_id: @user.id, commentable_type: "User" %>
 
 <h3><%= @user.username %>'s Goals</h3>
+<% if current_user == @user %>
+  <%= link_to "New Goal", new_goal_url %>
+<% end %>
 <ul>
   <% @user.goals.each do |goal| %>
     <% if logged_in? &&

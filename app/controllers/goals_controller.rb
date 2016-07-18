@@ -6,6 +6,7 @@ class GoalsController < ApplicationController
 
   def create
     @goal = Goal.new(goal_params)
+    @goal.user_id = current_user.id
     if @goal.save
       flash[:notice] = "Goal saved!"
       redirect_to goal_url(@goal)
@@ -42,18 +43,8 @@ class GoalsController < ApplicationController
     redirect_to goals_url
   end
 
-  def complete
-    @goal = Goal.find_by_id(params[:id])
-    if @goal.completed == false
-      @goal.completed = true
-    else
-      @goal.completed = false
-    end
-    redirect_to goal_url(@goal)
-  end
-
   private
   def goal_params
-    params.require(:goal).permit(:title, :details, :private, :completed)
+    params.require(:goal).permit(:title, :details, :private, :completed, :user_id)
   end
 end

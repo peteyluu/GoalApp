@@ -121,7 +121,7 @@ feature "privacy of goals" do
       expect(page).to have_content hw_goal.title
     end
 
-    it "should display public goal when logged in" do
+    it "allows other users to see public goals" do
       visit new_session_url
       fill_in "session_username", with: foo_bar.username
       fill_in "session_password", with: foo_bar.password
@@ -136,7 +136,7 @@ feature "privacy of goals" do
       FactoryGirl.create(:goal, author: hello_world, private: true)
     end
 
-    it "should set private on explicitly" do
+    it "allows creating private goals" do
       visit new_goal_url
       fill_in "goal_title", with: hw_goal.title
       fill_in "goal_details", with: hw_goal.details

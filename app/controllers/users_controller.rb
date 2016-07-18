@@ -4,11 +4,16 @@ class UsersController < ApplicationController
     render :new
   end
 
+  def index
+    @users = User.all
+    render :index
+  end
+
   def create
     @user = User.new(params_user)
     if @user.save
       login!(@user)
-      redirect_to user_url(@user)
+      redirect_to users_url
     else
       flash.now[:errors] = @user.errors.full_messages
       render :new
